@@ -1,0 +1,105 @@
+<mat-card class="max-w-7xl mx-auto" *ngIf="cart.items.length">
+  <!-- Only display if isConent == true-->
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-full">
+    <ng-container matColumnDef="product">
+      <!-- matColDef tpo access a ppty from an object-->
+      <th mat-header-cell *matHeaderCellDef>Product</th>
+      <td mat-cell *matCellDef="let element">
+        <img src="{{ element.product }}" alt="product" class="w-[100px] my-5" />
+      </td>
+      <!-- Footer -->
+      <td mat-footer-cell *matFooterCellDef>
+        <button mat-raised-button routerLink="/home">Continue Exploring</button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <!-- matColDef tpo access a ppty from an object-->
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">
+        <span class="truncate max-w-xs p-3 block">
+        {{ element.name }}</span>
+      </td>
+      <!-- Footer -->
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <!-- matColDef tpo access a ppty from an object-->
+      <th mat-header-cell *matHeaderCellDef>Price</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.price | currency: "Ksh. " }}
+      </td>
+      <!-- Footer -->
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="quantity">
+      <!-- matColDef tpo access a ppty from an object-->
+      <th mat-header-cell *matHeaderCellDef>Quantity</th>
+      <td mat-cell *matCellDef="let element">
+        <button 
+        (click)="onRemoveQuantity(element)"
+        mat-icon-button mat-mini-fab color="accent">
+        <mat-icon>remove</mat-icon>
+        </button>
+        <span class="p-3">{{ element.quantity }}</span>
+        <button 
+        (click)="onAddQuantity(element)"
+        mat-icon-button mat-mini-fab color="primary">
+          <mat-icon>add</mat-icon>
+          </button>
+      </td>
+      <!-- Footer -->
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="total">
+      <!-- matColDef tpo access a ppty from an object-->
+      <th mat-header-cell *matHeaderCellDef>Total</th>
+      <td mat-cell *matCellDef="let element">
+        {{ (element.quantity * element.price) | currency: 'Ksh. ' }}
+      </td>
+      <!-- Footer -->
+      <td mat-footer-cell *matFooterCellDef>
+        <span class="font-bold py-5 block">
+          {{ getTotal(cart.items) | currency: "Ksh. " }}
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <!-- matColDef tpo access a ppty from an object-->
+      <th mat-header-cell *matHeaderCellDef>
+        <button (click)="onClearCart()" mat-raised-button color="warn" class="float-right"
+          >
+          Clear All
+        </button>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <button 
+        (click)="onRemoveFromCart(element)"
+        mat-mini-fab color="warn" class="float-right">
+            <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+      <!-- Footer -->
+      <td mat-footer-cell *matFooterCellDef>
+        <button 
+        (click)="onCheckOut()"
+        mat-raised-button color="primary" class="float-right">Checkout</button>
+      </td>
+    </ng-container>
+
+    <!-- Table contents -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <!-- Loop through the items-->
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+  </table>
+</mat-card>
+<mat-card class="max-w-7xl mx-auto" *ngIf="!cart.items.length">
+  <!-- Only display if isConent == false-->
+  <p>Your cart is empty, please add items</p>
+  <button mat-raised-button routerLink="/home">Start shopping</button>
+</mat-card>

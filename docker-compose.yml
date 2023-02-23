@@ -1,0 +1,14 @@
+version: "3.5" 
+
+services:
+  dev:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .sidenav/src:sidenav/src
+    restart: unless-stopped
+    ports:
+      - '4200:4200'
+
+# Build successful, but encounterd errors while bringing up the project.
